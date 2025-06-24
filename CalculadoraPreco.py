@@ -4,7 +4,7 @@ qtd = 3
 
 preco_total = preco * qtd
 
-print(produto)
+print(f"Produto: {produto}")
 print(f"Valor unitário: {preco}")
 print(f"Quantidade: {qtd}")
 print(f"Valor Total: {preco_total}")
