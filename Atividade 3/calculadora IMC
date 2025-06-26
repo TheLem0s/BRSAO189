@@ -1,0 +1,25 @@
+try:
+    peso = float(input("Por favor, digite seu peso em kg: "))
+    altura = float(input("Por favor, digite sua altura em metros: "))
+except ValueError:
+    print("Entrada inválida. Por favor, digite números para peso e altura.")
+    exit() 
+
+    if peso <= 0 or altura <= 0:  print("Peso e altura devem ser valores positivos.")
+    exit()
+
+imc = peso / (altura ** 2)
+
+if imc < 18.5:
+    classificacao = "Abaixo do peso"
+elif imc < 25:  # Isso significa 18.5 <= imc < 25
+    classificacao = "Peso normal"
+elif imc < 30:  # Isso significa 25 <= imc < 30
+    classificacao = "Sobrepeso"
+else:           # Isso significa imc >= 30
+    classificacao = "Obeso"
+
+print(f"\nSeu peso: {peso:.1f} kg")
+print(f"Sua altura: {altura:.2f} m")
+print(f"Seu IMC é: {imc:.2f}")
+print(f"Classificação: {classificacao}")   

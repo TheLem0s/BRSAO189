@@ -1,0 +1,20 @@
+try:
+    idade = int(input("Por favor, digite sua idade: "))
+except ValueError:
+    print("Idade inválida. Por favor, digite um número inteiro.")
+    exit() 
+
+
+if 0 <= idade <= 12:
+    categoria = "Criança"
+elif 13 <= idade <= 17:
+    categoria = "Adolescente"
+elif 18 <= idade <= 59:
+    categoria = "Adulto"
+elif idade >= 60:
+    categoria = "Idoso"
+else:
+    categoria = "Idade inválida (menor que 0)"
+
+
+print(f"Com {idade} anos, você é considerado {categoria}.")
