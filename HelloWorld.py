@@ -1,1 +1,4 @@
-print("Olá, mundo!!!")
+def main():
+
+    print("Olá, mundo!!!")
+main()
