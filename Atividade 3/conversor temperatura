@@ -1,0 +1,59 @@
+def celsius_para_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
+
+def celsius_para_kelvin(celsius):
+    return celsius + 273.15
+
+def fahrenheit_para_celsius(fahrenheit):
+    return (fahrenheit - 32) * 5/9
+
+def fahrenheit_para_kelvin(fahrenheit):
+    return (fahrenheit_para_celsius(fahrenheit)) + 273.15
+
+def kelvin_para_celsius(kelvin):
+    return kelvin - 273.15
+
+def kelvin_para_fahrenheit(kelvin):
+    return (kelvin_para_celsius(kelvin) * 9/5) + 32
+
+print("--- Conversor de Temperatura ---")
+
+try:
+    temperatura = float(input("Digite a temperatura: "))
+    unidade_origem = input("Unidade de origem (Digite C para Celsius, F Fahrenheit e K para Kelvin): ").upper() 
+    unidade_destino = input("Unidade para converter (Digite C para Celsius, F Fahrenheit e K para Kelvin): ").upper() 
+    
+    resultado = None
+
+    if unidade_origem == unidade_destino:
+        resultado = temperatura
+        print(f"\nAs unidades de origem e destino são as mesmas. Resultado: {temperatura:.2f} {unidade_destino}.")
+    
+    elif unidade_origem == 'C':
+        if unidade_destino == 'F':
+            resultado = celsius_para_fahrenheit(temperatura)
+        elif unidade_destino == 'K':
+            resultado = celsius_para_kelvin(temperatura)
+    
+    elif unidade_origem == 'F':
+        if unidade_destino == 'C':
+            resultado = fahrenheit_para_celsius(temperatura)
+        elif unidade_destino == 'K':
+            resultado = fahrenheit_para_kelvin(temperatura)
+    
+    elif unidade_origem == 'K':
+        if unidade_destino == 'C':
+            resultado = kelvin_para_celsius(temperatura)
+        elif unidade_destino == 'F':
+            resultado = kelvin_para_fahrenheit(temperatura)
+    
+    else:
+        print("Unidade de origem inválida. Use C, F ou K.")
+
+    if resultado is not None and unidade_origem != unidade_destino:
+        print(f"\n{temperatura:.2f} {unidade_origem} é igual a {resultado:.2f} {unidade_destino}.")
+
+except ValueError:
+    print("Temperatura inválida. Por favor, digite um número.")
+except Exception as e:
+    print(f"Ocorreu um erro: {e}")
