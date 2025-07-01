@@ -1,0 +1,56 @@
+import urllib.request
+import json
+
+def buscar_endereco_por_cep():
+   
+    print("--- Buscador de Endereço por CEP ---")
+    
+    cep = input("Digite o CEP (apenas números): ")
+    
+   
+    if not cep.isdigit() or len(cep) != 8:
+        print("CEP inválido. Por favor, digite 8 dígitos numéricos.")
+        return 
+    
+    
+    url = f"https://viacep.com.br/ws/{cep}/json/"
+    
+    try:
+        
+        with urllib.request.urlopen(url) as response:
+            if response.getcode() != 200:
+                raise urllib.error.HTTPError(url, response.getcode(), "Erro HTTP", response.info(), None)
+            
+            
+            dados_brutos = response.read().decode('utf-8')
+        
+        dados_endereco = json.loads(dados_brutos) 
+        
+       
+        if 'erro' in dados_endereco and dados_endereco['erro']:
+            print(f"CEP '{cep}' não encontrado ou inválido.")
+        else:
+            logradouro = dados_endereco.get('logradouro', 'Não informado')
+            bairro = dados_endereco.get('bairro', 'Não informado')
+            localidade = dados_endereco.get('localidade', 'Não informado')
+            uf = dados_endereco.get('uf', 'Não informado') 
+            
+            print(f"\n--- Detalhes do Endereço para o CEP: {cep} ---")
+            print(f"Logradouro: {logradouro}")
+            print(f"Bairro: {bairro}")
+            print(f"Cidade: {localidade}")
+            print(f"Estado (UF): {uf}")
+            
+    except urllib.error.URLError as e:
+        print(f"Erro de rede ao conectar à API: {e.reason}")
+        print("Verifique sua conexão com a internet ou o endereço da API.")
+    except urllib.error.HTTPError as e:
+        print(f"Erro HTTP ao acessar a API: Código {e.code} - {e.reason}")
+    except json.JSONDecodeError as e:
+        print(f"Erro ao processar os dados da API. Formato JSON inválido: {e}")
+        print("Resposta bruta da API (para depuração):", dados_brutos if 'dados_brutos' in locals() else "N/A")
+    except Exception as e:
+        print(f"Ocorreu um erro inesperado: {e}")
+
+if __name__ == "__main__":
+    buscar_endereco_por_cep()
