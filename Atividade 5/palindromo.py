@@ -1,8 +1,8 @@
-txt = input("Insira a palavra: ")
+txt = input("Insira a palavra para conferir se é um palíndromo: ")
+
 
 if txt == txt[::-1]:
-    return True
-
+    print(f"Sim")
 else: 
-    return False
+    print(f"Não")
 
