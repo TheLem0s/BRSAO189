@@ -1,0 +1,77 @@
+import json
+import os
+
+def escrever_dados_json(nome_arquivo, pessoa):
+    try:
+        with open(nome_arquivo, 'w', encoding='utf-8') as arquivo_json:
+            json.dump(pessoa, arquivo_json, indent=4, ensure_ascii=False)
+        print(f"Dados da pessoa escritos com sucesso no arquivo '{nome_arquivo}'.")
+    except IOError as e:
+        print(f"Erro de E/S ao escrever no arquivo: {e}")
+    except Exception as e:
+        print(f"Ocorreu um erro inesperado ao escrever: {e}")
+
+def ler_dados_json(nome_arquivo):
+    print(f"\n--- Lendo dados do arquivo '{nome_arquivo}' ---")
+    
+    if not os.path.exists(nome_arquivo):
+        print(f"Erro: O arquivo '{nome_arquivo}' não foi encontrado.")
+        print("Certifique-se de que o arquivo existe ou crie-o primeiro.")
+        return None
+
+    try:
+        with open(nome_arquivo, 'r', encoding='utf-8') as arquivo_json:
+            dados_lidos = json.load(arquivo_json)
+        
+        print("\n--- Dados da pessoa lidos do arquivo ---")
+        print(f"Nome: {dados_lidos.get('Nome', 'N/A')}")
+        print(f"Idade: {dados_lidos.get('Idade', 'N/A')}")
+        print(f"Cidade: {dados_lidos.get('Cidade', 'N/A')}")
+        return dados_lidos
+        
+    except json.JSONDecodeError as e:
+        print(f"Erro: O arquivo '{nome_arquivo}' contém JSON inválido: {e}")
+        return None
+    except IOError as e:
+        print(f"Erro de E/S ao ler o arquivo: {e}")
+        return None
+    except Exception as e:
+        print(f"Ocorreu um erro inesperado ao ler: {e}")
+        return None
+
+if __name__ == "__main__":
+    arquivo_json_saida = "pessoa.json"
+
+    print("## Demonstração de Escrita no Arquivo JSON ##")
+    
+    print("Por favor, insira os dados da pessoa:")
+    nome_usuario = input("Nome: ").strip()
+    
+    idade_usuario = None
+    while idade_usuario is None:
+        try:
+            idade_str = input("Idade: ")
+            idade_usuario = int(idade_str)
+            if idade_usuario < 0:
+                print("Idade não pode ser negativa. Digite novamente.")
+                idade_usuario = None
+        except ValueError:
+            print("Entrada inválida para idade. Digite um número inteiro.")
+    
+    cidade_usuario = input("Cidade: ").strip()
+
+    pessoa_para_salvar = {
+        "Nome": nome_usuario,
+        "Idade": idade_usuario,
+        "Cidade": cidade_usuario
+    }
+    
+    escrever_dados_json(arquivo_json_saida, pessoa_para_salvar)
+
+    print("\n## Demonstração de Leitura do Arquivo JSON ##")
+    dados_lidos_do_arquivo = ler_dados_json(arquivo_json_saida)
+    
+    if dados_lidos_do_arquivo:
+        print("\nLeitura concluída.")
+    else:
+        print("\nNão foi possível ler os dados do arquivo JSON.")
